@@ -4,7 +4,7 @@ function ProjectList(props) {
   // props.project = array of objects
   // I need to pass projects down into ProjectListItem
   // Render ProjectListItem for each of the projects inside of the props.project
-
+  console.log(props)
   return (
     <div>
       {props.projects.map((project) => (
