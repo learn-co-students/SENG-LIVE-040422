@@ -23,8 +23,7 @@ const App = () => {
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
       <ProjectForm />
       <button onClick={fetchProjects}>Load Projects</button>
-      {/* <button onClick={() => setText("hello world")}>Hello World</button>
-      <button onClick={() => setText("goodbye")}>Goodbye</button> */}
+        {/* <button onClick={() => setCount((count) => count + 1)}>{count}</button> */}
       <ProjectList projects={projects} />
     </div>
   );
