@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useRef, useEffect } from "react";
+import { useForm } from "../hooks/useForm";
 
 const ProjectForm = ({ onAddProject }) => {
-  const [formData, setFormData] = useState({
+  const initialState = {
     name: "",
     about: "",
     phase: "",
     link: "",
     image: "",
-  });
+  }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((formData) => ({ ...formData, [name]: value }));
-  };
+  const { formState, setFormState, handleChange} = useForm(initialState)
+  
+  const nameInputRef = useRef() // this is going to return a refernce object with a property of current, the value of that property is going to be the element we attached this reference to
+
+
+  const aboutInputRef = useRef()
+
+  useEffect(() => {
+    nameInputRef.current.focus()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,14 +29,14 @@ const ProjectForm = ({ onAddProject }) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ ...formData, claps: 0 }),
+      body: JSON.stringify({ ...formState, claps: 0 }),
     };
 
     fetch("http://localhost:4000/projects", configObj)
       .then((resp) => resp.json())
       .then((project) => {
         onAddProject(project);
-        setFormData({
+        setFormState({
           name: "",
           about: "",
           phase: "",
@@ -50,7 +57,8 @@ const ProjectForm = ({ onAddProject }) => {
           id="name"
           name="name"
           onChange={handleChange}
-          value={formData.name}
+          value={formState.name}
+          ref={nameInputRef}
         />
 
         <label htmlFor="about">About</label>
@@ -58,7 +66,8 @@ const ProjectForm = ({ onAddProject }) => {
           id="about"
           name="about"
           onChange={handleChange}
-          value={formData.about}
+          value={formState.about}
+          ref={aboutInputRef}
         />
 
         <label htmlFor="phase">Phase</label>
@@ -66,7 +75,7 @@ const ProjectForm = ({ onAddProject }) => {
           name="phase"
           id="phase"
           onChange={handleChange}
-          value={formData.phase}
+          value={formState.phase}
         >
           <option value="">Pick a Phase</option>
           <option value="1">Phase 1</option>
@@ -82,7 +91,7 @@ const ProjectForm = ({ onAddProject }) => {
           id="link"
           name="link"
           onChange={handleChange}
-          value={formData.link}
+          value={formState.link}
         />
 
         <label htmlFor="image">Screenshot</label>
@@ -91,7 +100,7 @@ const ProjectForm = ({ onAddProject }) => {
           id="image"
           name="image"
           onChange={handleChange}
-          value={formData.image}
+          value={formState.image}
         />
 
         <button type="submit">Add Project</button>

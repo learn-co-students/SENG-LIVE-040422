@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Link } from 'react-router-dom'
+import { UserNameContext } from "../App";
 
 const ProjectListItem = ({
   project,
@@ -8,6 +9,9 @@ const ProjectListItem = ({
 }) => {
   const { id, image, about, name, link, phase } = project;
 
+
+  const userName = useContext(UserNameContext)
+  console.log(userName)
   const [clapCount, setClapCount] = useState(0);
 
   const handleClap = (clapCount) => setClapCount(clapCount + 1);
